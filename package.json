@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node src/server.js",
     "build-db": "node build-db.js",
-    "test": "node src/test-queries.js"
+    "test": "node src/test-queries.js",
+    "generate-schema": "node src/utils/generateDocs.js",
+    "start:dev": "LOG_QUERIES=true node src/server.js",
+    "start:prod": "NODE_ENV=production LOG_QUERIES=false node src/server.js"
   },
   "keywords": [
     "graphql",
