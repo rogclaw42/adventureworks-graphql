@@ -1,15 +1,21 @@
 {
   "name": "adventureworks-graphql",
   "version": "1.0.0",
-  "description": "",
+  "description": "Production-quality GraphQL API on AdventureWorks SQLite database",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
     "build-db": "node build-db.js",
     "test": "node src/test-queries.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "graphql",
+    "adventureworks",
+    "sqlite",
+    "apollo",
+    "nodejs"
+  ],
+  "author": "rogclaw42",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {

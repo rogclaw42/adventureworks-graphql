@@ -9,6 +9,7 @@ const { buildWhereClause, buildOrderByClause } = require('../utils/queryBuilder'
 const { cachedQuery, queryCache } = require('../utils/cache');
 const { analytics } = require('../utils/analytics');
 const { fieldResolvers } = require('./fieldResolvers');
+const { validateCreateProduct, validateCreateSalesOrder, validateCreatePerson } = require('../middleware/validation');
 
 // ============================================================
 // Scalar types
@@ -1194,7 +1195,11 @@ const resolvers = {
     
     Mutation: {
         createProduct: (_, { input }) => {
+            validateCreateProduct(input);
             const db = getDb();
+            // Check for duplicate product number
+            const existing = db.prepare('SELECT ProductID FROM Production_Product WHERE ProductNumber = ?').get(input.productNumber);
+            if (existing) throw new Error(`Product number '${input.productNumber}' already exists`);
             const now = new Date().toISOString();
             const rowguid = require('crypto').randomUUID();
             
@@ -1296,6 +1301,7 @@ const resolvers = {
         
         createSalesOrder: (_, { input }, { pubsub }) => {
             const db = getDb();
+            validateCreateSalesOrder(input, db);
             const now = new Date().toISOString();
             const rowguid = require('crypto').randomUUID();
             
@@ -1378,6 +1384,7 @@ const resolvers = {
         },
         
         createPerson: (_, { input }) => {
+            validateCreatePerson(input);
             const db = getDb();
             const now = new Date().toISOString();
             
